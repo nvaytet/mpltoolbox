@@ -41,18 +41,19 @@ jobs:
     #     python -m pytest test
     - name: Build documentation
       run: |
-        sphinx-build -b html docs/. docs/html
+        sphinx-build -b html docs/. docs_html
+        zip -r docs_html.zip docs_html
     - name: Archive documentation artifacts
       uses: actions/upload-artifact@v3
       with:
         name: DocumentationHTML
-        path: docs/html
+        path: docs_html
 
     - name: Upload release assets
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: docs/html.zip
+        file: docs_html.zip
         asset_name: Documentation
         tag: ${{ github.ref }}
         overwrite: true
